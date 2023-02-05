@@ -1,4 +1,5 @@
-Scenario I In this scenario, we are interested in modeling student enrollment in Stanford courses. We would like to
+Scenario I 
+In this scenario, we are interested in modeling student enrollment in Stanford courses. We would like to
 answer questions such as:
 • Which courses are most popular? Which instructors are most popular?
 • Which courses are most popular among graduate students? Undergraduates? • Are there courses for which the
@@ -55,7 +56,8 @@ Answer:For the option that I had choosen(Option B) can have good work around for
 
 
 
-Scenario II In this scenario, we are building a data warehouse for an online brokerage company. The company
+Scenario II
+In this scenario, we are building a data warehouse for an online brokerage company. The company
 makes money by charging commissions when customers buy and sell stocks. We are planning to have a Trades fact
 table with the grain of one row per stock trade. We will use the following dimensions: Date, Customer, Account,
 Security (i.e. which stock was traded), and TradeType.
