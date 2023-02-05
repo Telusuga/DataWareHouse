@@ -52,3 +52,65 @@ Question 3. Would your answer to Question 2 be different if the majority of clas
 about if only one or two classes had multiple instructors? (Explain your answer.)
 Answer:For the option that I had choosen(Option B) can have good work around for the issue if multiple instructors for most of the courses because if we try to modify the field
        EnrollmentCount base on number of instructors to be equal to 1.
+
+
+
+Scenario II In this scenario, we are building a data warehouse for an online brokerage company. The company
+makes money by charging commissions when customers buy and sell stocks. We are planning to have a Trades fact
+table with the grain of one row per stock trade. We will use the following dimensions: Date, Customer, Account,
+Security (i.e. which stock was traded), and TradeType.
+The company’s data analysts have told us that they have developed two customer scoring techniques that are used
+extensively in their analyses.
+· Each customer is placed into one of nine Customer Activity Segments based on their frequency of
+transactions, average transaction size, and recency of transactions.
+· EachcustomerisassignedaCustomerProfitabilityScorebasedontheprofitsearnedasaresultofthatcustomer’s
+trades. The score can be either 1,2,3,4, or 5, with 5 being the most profitable.
+These two scores are frequently used as filters or grouping attributes in queries. For example:
+· How many trades were placed in July by customers in each customer activity segment?
+· What was the total commission earned in each quarter of 2003 on trades of IBM stock by customers
+with a profitability score of 4 or 5?
+There are a total of 100,000 customers, and scores are recalculated every three months. The activity level or
+profitability level of some customers changes over time, and users are very interested in understanding how
+and why this occurs.
+We are considering several options for dealing with the customer scores:
+
+Option A
+ThescoresareattributesoftheCustomerdimension.Whenscoreschange,theoldscoreisoverwrittenwiththe new score
+(Type 1 Slowly Changing Dimension).
+
+Option B
+The scores are attributes of the Customer dimension. When scores change, new Customer dimension rows are
+created using the updated scores (Type 2 Slowly Changing Dimension).
+
+Option C
+The scores are stored in a separate CustomerScores dimension which contains 45 rows, one for each combi- nation
+of activity and profitability scores. The Trades fact table includes a foreign key to the CustomerScores dimension.
+
+Option D
+The scores are stored in a CustomerScores outrigger table which contains 45 rows. The Customer dimension
+includes a foreign key to the outrigger table (but the fact table does not). When scores change, the foreign key
+column in the Customer table is updated to point to the correct outrigger row.
+
+Please answer the following questions.
+Question 5. What are the strengths and weaknesses of each option?
+Answer:
+Option A: This option is good for storing the Latest data but the limitation occurs when we wanted to search the history data because there will 
+be updates happening on the hsitory data
+
+Option B:This option will be good for storing the latest data as well as the history data and this will be used for good amount of analysis on the 
+history data. The limitation on this table is that as it is SCD-2 table it will tend to grow as new record inserted so the table size will be increasing.
+
+Option C:This approach of creating a new table withrespect to the combination of activity and profitability scores is kind of activity which decreases the overhead 
+on the computation and we can directly join with fact table for the analysis. But, there are 2 issues we are creating a new table which will cause extra storage and 
+its kind of static in terms of combinations of activity and profitability scores.
+
+Option D:This approach will be creating a new table to another dimension table which will be using a foreign key on Customers table but there will not be any foreign key on
+fact table.So, this will create cost more compared to the above approaches as there are 2 joins involved.
+
+Question 6. Which option would you choose and why?
+Answer:I would choose Option C because the computation time will be less and only query time will be there due to and we can store the data in the fact table like SCD-2 
+which will be easy for analysis on current data as well as history data.
+
+Question 7. Would your answer to Question 6 be different if the number of customers and/or the time interval
+between score recalculations was much larger or much smaller? (Explain your answer.)
+Answer:Only the time woould increase as query huge amount of data and if any combination occur we can add it in the CustomerScores dimension which would be the onetime activity.
